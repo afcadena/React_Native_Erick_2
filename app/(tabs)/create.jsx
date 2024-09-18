@@ -63,7 +63,7 @@ const Create = () => {
       !form.thumbnail |
       !form.video
     ) {
-      return Alert.alert("Please provide all fields");
+      return Alert.alert("Por favor proporcione todos los campos");
     }
 
     setUploading(true);
@@ -73,7 +73,7 @@ const Create = () => {
         userId: user.$id,
       });
 
-      Alert.alert("Success", "Post uploaded successfully");
+      Alert.alert("Éxito", "Publicación cargada exitosamente");
       router.push("/home");
     } catch (error) {
       Alert.alert("Error", error.message);
@@ -92,19 +92,19 @@ const Create = () => {
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView className="px-4 my-6">
-        <Text className="text-2xl text-white font-psemibold">Upload Video</Text>
+        <Text className="text-2xl text-white font-psemibold">Subir video</Text>
 
         <FormField
           title="Video Title"
           value={form.title}
-          placeholder="Give your video a catchy title..."
+          placeholder="Dale un título pegadizo a tu vídeo..."
           handleChangeText={(e) => setForm({ ...form, title: e })}
           otherStyles="mt-10"
         />
 
         <View className="mt-7 space-y-2">
           <Text className="text-base text-gray-100 font-pmedium">
-            Upload Video
+          Subir video
           </Text>
 
           <TouchableOpacity onPress={() => openPicker("video")}>
@@ -133,7 +133,7 @@ const Create = () => {
 
         <View className="mt-7 space-y-2">
           <Text className="text-base text-gray-100 font-pmedium">
-            Thumbnail Image
+            Miniatura de la imagen
           </Text>
 
           <TouchableOpacity onPress={() => openPicker("image")}>
@@ -152,7 +152,7 @@ const Create = () => {
                   className="w-5 h-5"
                 />
                 <Text className="text-sm text-gray-100 font-pmedium">
-                  Choose a file
+                  Elige un archivo
                 </Text>
               </View>
             )}
