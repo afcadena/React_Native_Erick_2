@@ -36,8 +36,8 @@ const Profile = () => {
         )}
         ListEmptyComponent={() => (
           <EmptyState
-            title="No Videos Found"
-            subtitle="No videos found for this profile"
+            title="No se encontraron videos"
+            subtitle="No se encontraron videos para este perfil"
           />
         )}
         ListHeaderComponent={() => (

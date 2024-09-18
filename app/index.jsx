@@ -38,7 +38,7 @@ const Welcome = () => {
             <Text className="text-3xl text-white font-bold text-center">
               Discover Endless{"\n"}
               Possibilities with{" "}
-              <Text className="text-secondary-200">Aora</Text>
+              <Text className="text-secondary-200">Aora Adso</Text>
             </Text>
 
             <Image
@@ -49,8 +49,7 @@ const Welcome = () => {
           </View>
 
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
-            Where Creativity Meets Innovation: Embark on a Journey of Limitless
-            Exploration with Aora
+          Donde la creatividad se encuentra con la innovación: emprende un viaje de exploración sin límites con Aora Adso
           </Text>
 
           <CustomButton
