@@ -10,7 +10,7 @@ import {
   Alert,
   Button,
 } from "react-native";
-import { reportVideo, downloadVideo } from "../lib/appwrite"; // Asegúrate de ajustar la ruta
+import { reportVideo, downloadVideo } from "../lib/appwrite"; 
 import { icons } from "../constants";
 
 const VideoCard = ({ title, creator, avatar, thumbnail, video, videoId }) => {
@@ -33,7 +33,7 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video, videoId }) => {
   const handleReport = async () => {
     try {
       await reportVideo(videoId, reportReason);
-      Alert.alert("Success", "Video reported successfully");
+      Alert.alert("Éxito", "Video reportado exitosamente");
       setReportReason("");
       setReportModalVisible(false); // Cierra el modal de reporte
     } catch (error) {
