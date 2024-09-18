@@ -1,11 +1,45 @@
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Modal,
+  TextInput,
+  Alert,
+  Button,
+} from "react-native";
+import { reportVideo, downloadVideo } from "../lib/appwrite"; // Asegúrate de ajustar la ruta
 import { icons } from "../constants";
 
-const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
+const VideoCard = ({ title, creator, avatar, thumbnail, video, videoId }) => {
   const [play, setPlay] = useState(false);
+  const [optionsModalVisible, setOptionsModalVisible] = useState(false);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [reportReason, setReportReason] = useState("");
+
+  // Función para manejar la descarga
+  const handleDownload = async () => {
+    try {
+      await downloadVideo(video); // Descarga el video usando la URL
+      Alert.alert("Success", "Video downloaded successfully");
+      setOptionsModalVisible(false); // Cierra el modal de opciones
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
+
+  const handleReport = async () => {
+    try {
+      await reportVideo(videoId, reportReason);
+      Alert.alert("Success", "Video reported successfully");
+      setReportReason("");
+      setReportModalVisible(false); // Cierra el modal de reporte
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
 
   return (
     <View className="flex flex-col items-center px-4 mb-14">
@@ -35,8 +69,18 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           </View>
         </View>
 
-        <View className="pt-2">
-          <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+        <View className="pt-2 flex flex-row">
+          {/* Botón de Menú */}
+          <TouchableOpacity
+            onPress={() => setOptionsModalVisible(true)}
+            className="mr-4"
+          >
+            <Image
+              source={icons.menu}
+              className="w-5 h-5"
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -64,7 +108,6 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
             className="w-full h-full rounded-xl mt-3"
             resizeMode="cover"
           />
-
           <Image
             source={icons.play}
             className="w-12 h-12 absolute"
@@ -72,6 +115,60 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           />
         </TouchableOpacity>
       )}
+
+      {/* Modal de opciones */}
+      <Modal
+        visible={optionsModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setOptionsModalVisible(false)}
+      >
+        <View className="flex-1 justify-center items-center bg-gray-800 bg-opacity-70">
+          <View className="bg-white p-6 rounded-lg w-80">
+            <Button title="Download Video" onPress={handleDownload} />
+            <Button
+              title="Report Video"
+              onPress={() => {
+                setOptionsModalVisible(false);
+                setReportModalVisible(true);
+              }}
+              color="blue"
+            />
+            <Button
+              title="Cancel"
+              onPress={() => setOptionsModalVisible(false)}
+              color="red"
+            />
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal para reportar video */}
+      <Modal
+        visible={reportModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setReportModalVisible(false)}
+      >
+        <View className="flex-1 justify-center items-center bg-gray-800 bg-opacity-70">
+          <View className="bg-white p-6 rounded-lg w-80">
+            <Text className="text-lg font-semibold mb-4">Report Video</Text>
+            <TextInput
+              placeholder="Enter report reason"
+              value={reportReason}
+              onChangeText={setReportReason}
+              className="border border-gray-300 p-2 rounded mb-4"
+              multiline
+            />
+            <Button title="Submit Report" onPress={handleReport} />
+            <Button
+              title="Cancel"
+              onPress={() => setReportModalVisible(false)}
+              color="red"
+            />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
